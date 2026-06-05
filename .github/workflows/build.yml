@@ -14,6 +14,8 @@ jobs:
             artifact: merge_lines
           - os: windows-latest
             artifact: merge_lines.exe
+          - os: macos-latest
+            artifact: merge_lines-mac
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
