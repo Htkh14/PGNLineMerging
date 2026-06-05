@@ -1,0 +1,21 @@
+name: Build executables
+
+on: [push]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - run: pip install chess pyinstaller
+      - run: pyinstaller --onefile merge_lines.py
+      - uses: actions/upload-artifact@v3
+        with:
+          name: merge_lines-${{ matrix.os }}
+          path: dist/
