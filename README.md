@@ -13,3 +13,7 @@ No installation required. Just run the file and a file picker will open.
 
     chmod +x merge_lines
     ./merge_lines
+
+### Windows security warning
+Windows may warn the file is unrecognized. Click **More info → Run anyway**.
+This is normal for unsigned open-source tools.

@@ -1,6 +1,8 @@
 import merge_pgn
 import handle_pgns
 import sys
+import tkinter as tk
+from tkinter import messagebox
 
 def merge_all_lines(file):
     pgn = handle_pgns.split_pgn(file)
@@ -35,6 +37,10 @@ def main():
     result = merge_all_lines(pgn)
     with open(filepath, "w") as f:
         f.write(result)
+    root = tk.Tk()
+    root.withdraw()
+    messagebox.showinfo("Done", "PGN merged successfully!")
+    root.destroy()
 
 if __name__ == "__main__":
     main()

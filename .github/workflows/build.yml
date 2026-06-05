@@ -19,9 +19,15 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.14"
+          python-version: "3.11"
       - run: pip install chess pyinstaller
-      - run: pyinstaller --onefile merge_lines.py
+      - run: |
+          if [ "$RUNNER_OS" == "Windows" ]; then
+            pyinstaller --onefile --noconsole merge_lines.py
+          else
+            pyinstaller --onefile merge_lines.py
+          fi
+        shell: bash
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.artifact }}
