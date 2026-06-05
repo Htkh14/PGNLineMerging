@@ -2,7 +2,7 @@ import merge_pgn
 import handle_pgns
 import sys
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox, filedialog
 
 def merge_all_lines(file):
     pgn = handle_pgns.split_pgn(file)
@@ -13,8 +13,6 @@ def merge_all_lines(file):
     return merged
 
 def pick_file():
-    import tkinter as tk
-    from tkinter import filedialog
     root = tk.Tk()
     root.withdraw()
     path = filedialog.askopenfilename(
