@@ -31,3 +31,7 @@ chmod +x merge_lines
 ```
 
 **macOS:** If blocked by Gatekeeper, go to **System Settings → Privacy & Security** and click **Open Anyway**.
+
+## Credits
+
+Uses [Merge-PGN](https://github.com/permutationlock/merge-pgn.git) for the actual PGN line merging.
