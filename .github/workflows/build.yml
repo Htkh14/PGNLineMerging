@@ -26,6 +26,9 @@ jobs:
       - run: |
           if [ "$RUNNER_OS" == "Windows" ]; then
             pyinstaller --onefile --noconsole merge_lines.py
+          elif [ "$RUNNER_OS" == "macOS" ]; then
+            pyinstaller --onefile merge_lines.py
+            mv dist/merge_lines dist/merge_lines-mac
           else
             pyinstaller --onefile merge_lines.py
           fi
