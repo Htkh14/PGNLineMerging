@@ -34,4 +34,4 @@ chmod +x merge_lines
 
 ## Credits
 
-Uses [Merge-PGN](https://github.com/permutationlock/merge-pgn.git) for the actual PGN line merging.
+Uses [Merge-PGN](https://github.com/permutationlock/merge-pgn) for the actual PGN line merging.
