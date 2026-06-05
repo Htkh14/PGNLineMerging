@@ -10,5 +10,6 @@ Go to the [Releases page](../../releases/latest) and download:
 No installation required. Just run the file and a file picker will open.
 
 ### Linux: make it executable first
-chmod +x merge_lines
-./merge_lines
+
+    chmod +x merge_lines
+    ./merge_lines
