@@ -1,17 +1,12 @@
-# Description: A simple tool to merge several pgn games into a single game with
-# variations.
-
 import chess.pgn
 import sys
 import re
 import io
 from collections import OrderedDict
-from itertools import filterfalse
 
 
-# Extracts annotations from the comment
 COLOR_COMMANDS = {"%cal", "%csl"}
-SKIP_COMMANDS = {"%eval", "%clk", "%emt"}  # drop these entirely
+SKIP_COMMANDS = {"%eval", "%clk", "%emt"} 
 
 def extract_annotations(text):
     annotations = OrderedDict()
@@ -22,7 +17,7 @@ def extract_annotations(text):
         if part and part[0] == "%":
             cmd, _, rest = part.partition(" ")
             if cmd in SKIP_COMMANDS:
-                continue  # discard eval/clock annotations
+                continue
             elif cmd in COLOR_COMMANDS:
                 values = [v.strip() for v in rest.split(",")]
                 if cmd not in annotations:
@@ -91,7 +86,6 @@ def merge_annotations(annotations1, annotations2):
                     ucis1[uci] = pick_color(color1, color2)
                 else:
                     ucis1[uci] = ucis[uci]
-        # else: non-color command already exists, keep the first value
 
     formatted_annotations = ""
     for cmd, value in annotations1.items():
@@ -110,7 +104,6 @@ def merge_comments(text1, text2):
     combined_text = merge_text_strings(normal_text1.strip(), normal_text2.strip())
     combined_annotations = merge_annotations(annotations1, annotations2)
 
-    # Put text and annotations together in one block
     if combined_text and combined_annotations:
         return combined_text + " " + combined_annotations, ""
     elif combined_annotations:
@@ -118,41 +111,12 @@ def merge_comments(text1, text2):
     else:
         return combined_text, ""
 
-def insert_braces(text):
-    # Find all the occurrances of the braced string using re.finditer
-    brace_matches = list(re.finditer(r'\{(.*?)\}', text, flags=re.DOTALL))
-
-    # Iterate through all the matches (in reversed order because inserting stuff messes up the matches completely)
-    for brace_match in reversed(brace_matches):
-        start_pos = brace_match.start()
-        #end_pos = brace_match.end()    # Assigned but never used
-
-        # Find the position of the first [% within the braces
-        percent_match = re.search(r'\[%', brace_match.group(1), flags=re.DOTALL)
-        if percent_match is None:
-            continue
-
-        percent_pos = percent_match.start() + start_pos + 1
-
-        comment_text = text[start_pos + 1:percent_pos].strip()
-
-        # Insert "} {" at the position of the [% , if and only if the text before is non-empty
-        if comment_text:
-            text = text[:percent_pos] + "} { " + text[percent_pos:]
-
-    return text
-
-def filterOptions(argument):
-    return (re.match("^--[a-zA-Z-]*", argument))
-
 def merge(pgns: list):
-    usage = f"Usage: {sys.argv[0]} <PGN FILES>... <OUTPUT FILE> [--no-comments]\nWhere OUTPUT_FILE can be - to indicate STDOUT."
 
     master_node = chess.pgn.Game()
 
     games = []
     for line in pgns:
-        # pgn = open("\n".join(line), encoding="utf-8")
         pgn = io.StringIO("".join(line))
         game = chess.pgn.read_game(pgn)
         while game is not None:
